@@ -6,7 +6,10 @@ module Models exposing (..)
 
 initialModel : Model
 initialModel =
-    { issues = [ Issue 0 "Teste Issue" "vinicechin" False True [ Label "label 1" "yellow", Label "label 2" "pink" ] ]
+    { issues =
+        [ Issue 0 "Teste Issue" "vinicechin" False True [ Label "label 1" "yellow", Label "label 2" "pink" ]
+        , Issue 1 "Teste Issue 2 muito extensa para testar" "fulanocomnomecomprido" True False [ Label "label 2" "pink" ]
+        ]
     , sorter = "id"
     , owner = ""
     , repo = ""

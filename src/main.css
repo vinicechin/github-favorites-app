@@ -11,7 +11,7 @@ main {
 
 .searchInput {
   width: 46%;
-  min-width: 165px;
+  min-width: 140px;
   margin: 0px 1px;
   margin-bottom: 2px;
   padding-left: 5px;
@@ -24,14 +24,27 @@ main {
 }
 
 /* CSS styling for issue components */
+.issues-header {
+  padding: 0px 3px;
+}
+
 .issue-container {
   border: 1px solid black;
   border-radius: 5px;
+  margin-bottom: 5px;
+  padding: 3px;
+}
+
+.issue-data {
+  overflow-x: hidden;
+  text-overflow: ellipsis;
 }
 
 .assigne-column {
   text-align: right;
   margin-left: auto;
+  overflow-x: hidden;
+  text-overflow: ellipsis;
 }
 
 .issue-label {
