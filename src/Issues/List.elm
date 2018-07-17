@@ -1,7 +1,7 @@
 module Issues.List exposing (..)
 
 import Html exposing (..)
-import Html.Attributes exposing (class, style, placeholder, title)
+import Html.Attributes exposing (class, style, placeholder, title, href, target, src)
 import Html.Events exposing (onInput, onClick)
 import Msgs exposing (Msg(..))
 import Models exposing (Model, Issue, Label)
@@ -102,10 +102,22 @@ issueRow issue =
             ]
         , div [ class "col-6 issue-data" ]
             [ text ((toString issue.id) ++ " - ")
-            , text issue.name
+            , a [ href issue.url, target "_blank" ] [ text issue.name ]
             , div [] (List.map labelsRow issue.labels)
             ]
-        , div [ class "col-4 assigne-column" ] [ text issue.assignee ]
+        , div [ class "col-4 assigne-column" ]
+            [ a
+                [ href issue.assigneeUrl
+                , target "_blank"
+                ]
+                [ img
+                    [ src issue.assigneeImageUrl
+                    , title issue.assignee
+                    , class "assignee-img"
+                    ]
+                    []
+                ]
+            ]
         ]
 
 

@@ -9,6 +9,14 @@ main {
   margin: 0 10%;
 }
 
+a {
+  color: black !important;
+}
+
+a:hover {
+  color: #2222cc !important;
+}
+
 /* CSS styling for search components */
 .searchInput {
   width: 46%;
@@ -73,6 +81,13 @@ main {
   margin-left: auto;
   overflow-x: hidden;
   text-overflow: ellipsis;
+}
+
+.assignee-img {
+  width: 20px;
+  height: 20px;
+  border-radius: 3px;
+  margin: 5px 17px 0px 0px;
 }
 
 .issue-label {
