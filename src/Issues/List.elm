@@ -1,7 +1,7 @@
 module Issues.List exposing (..)
 
 import Html exposing (..)
-import Html.Attributes exposing (class, style, placeholder)
+import Html.Attributes exposing (class, style, placeholder, title)
 import Html.Events exposing (onInput, onClick)
 import Msgs exposing (Msg(..))
 import Models exposing (Model, Issue, Label)
@@ -140,13 +140,18 @@ starIconAttributes isFavorite =
 stateIcon : String -> Html Msg
 stateIcon state =
     let
-        stateColor =
+        stateItem =
             if state == "open" then
-                "green"
+                { color = "green", title = "Open" }
             else
-                "red"
+                { color = "red", title = "Closed" }
     in
-        i [ class "fa fa-exclamation", style [ ( "color", stateColor ) ] ] []
+        i
+            [ class "fa fa-exclamation"
+            , style [ ( "color", stateItem.color ) ]
+            , title stateItem.title
+            ]
+            []
 
 
 labelsRow : Label -> Html Msg
