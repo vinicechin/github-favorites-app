@@ -11,3 +11,4 @@ type Msg
     | Change String
     | Search
     | ToggleFavorite Issue
+    | ToggleSorter

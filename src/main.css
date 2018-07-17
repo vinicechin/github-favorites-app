@@ -38,6 +38,10 @@ a:hover {
   display: flex;
 }
 
+.issues-sorter-label {
+  width: 15px;
+}
+
 .issues-sorter-btn {
   width: 20px;
   height: 15px;
@@ -51,11 +55,11 @@ a:hover {
 }
 
 .id-sorter {
-  margin-left: 2px;
+  margin-left: 3px;
 }
 
 .state-sorter {
-  margin-right: 2px;
+  margin-right: 3px;
 }
 
 /* CSS styling for issue components */

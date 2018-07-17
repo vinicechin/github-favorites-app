@@ -20,11 +20,14 @@ update msg model =
             ( model, Cmd.none )
 
         ToggleFavorite issue ->
-            ( updateIssue model issue, Cmd.none )
+            ( toggleFavorite model issue, Cmd.none )
+
+        ToggleSorter ->
+            ( toggleSorter model, Cmd.none )
 
 
-updateIssue : Model -> Issue -> Model
-updateIssue model issue =
+toggleFavorite : Model -> Issue -> Model
+toggleFavorite model issue =
     let
         pick currentIssue =
             if issue.id == currentIssue.id then
@@ -36,3 +39,17 @@ updateIssue model issue =
             List.map pick model.issues
     in
         { model | issues = updateIssueList }
+
+
+toggleSorter : Model -> Model
+toggleSorter model =
+    let
+        newSorter =
+            if model.sorter == "id" then
+                "state"
+            else if model.sorter == "state" then
+                "id"
+            else
+                "id"
+    in
+        { model | sorter = newSorter }

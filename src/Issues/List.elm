@@ -53,26 +53,38 @@ issuesSearcher =
 issuesSorter : String -> Html Msg
 issuesSorter sorter =
     let
-        idColor =
+        colors =
             if sorter == "id" then
-                "#bbbbbb"
+                { id = "#bbbbbb", state = "white" }
+            else if sorter == "state" then
+                { id = "white", state = "#bbbbbb" }
             else
-                "white"
-
-        stateColor =
-            if sorter == "state" then
-                "#bbbbbb"
-            else
-                "white"
+                { id = "#bbbbbb", state = "white" }
     in
         div [ class "issues-sorter" ]
-            [ text "Id"
-            , div [ class "issues-sorter-btn id-sorter", style [ ( "background-color", idColor ) ] ]
+            [ boldText (sorter == "id") "Id"
+            , div
+                [ class "issues-sorter-btn id-sorter"
+                , style [ ( "background-color", colors.id ) ]
+                , onClick ToggleSorter
+                ]
                 []
-            , div [ class "issues-sorter-btn state-sorter", style [ ( "background-color", stateColor ) ] ]
+            , div
+                [ class "issues-sorter-btn state-sorter"
+                , style [ ( "background-color", colors.state ) ]
+                , onClick ToggleSorter
+                ]
                 []
-            , text "State"
+            , boldText (sorter == "state") "State"
             ]
+
+
+boldText : Bool -> String -> Html Msg
+boldText setBold sorterLabel =
+    if setBold then
+        b [ class "issues-sorter-label" ] [ text sorterLabel ]
+    else
+        span [ class "issues-sorter-label" ] [ text sorterLabel ]
 
 
 
