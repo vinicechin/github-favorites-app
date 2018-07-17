@@ -26,4 +26,4 @@ mainHeader =
 
 page : Model -> Html Msg
 page model =
-    Issues.List.view model.issues
+    Issues.List.view model

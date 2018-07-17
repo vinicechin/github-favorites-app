@@ -4,15 +4,45 @@ import Html exposing (..)
 import Html.Attributes exposing (class, style, placeholder)
 import Html.Events exposing (onInput, onClick)
 import Msgs exposing (Msg(..))
-import Models exposing (Issue, Label)
+import Models exposing (Model, Issue, Label)
 
 
-view : List Issue -> Html Msg
-view issues =
-    main_ []
-        [ issuesSearcher
-        , issuesList issues
-        ]
+view : Model -> Html Msg
+view model =
+    let
+        sorter =
+            model.sorter
+    in
+        main_ []
+            [ issuesSearcher
+            , issuesSorter sorter
+            , issuesList model.issues sorter
+            ]
+
+
+issuesSorter : String -> Html Msg
+issuesSorter sorter =
+    let
+        idColor =
+            if sorter == "id" then
+                "green"
+            else
+                "white"
+
+        stateColor =
+            if sorter == "state" then
+                "green"
+            else
+                "white"
+    in
+        div [ class "issues-sorter" ]
+            [ text "Id"
+            , div [ class "issues-sorter-btn id-sorter", style [ ( "background-color", idColor ) ] ]
+                []
+            , div [ class "issues-sorter-btn state-sorter", style [ ( "background-color", stateColor ) ] ]
+                []
+            , text "State"
+            ]
 
 
 issuesSearcher : Html Msg
@@ -34,12 +64,22 @@ issuesSearcher =
         ]
 
 
-issuesList : List Issue -> Html Msg
-issuesList issues =
+issuesList : List Issue -> String -> Html Msg
+issuesList issues sorter =
     div [ class "p2" ]
         [ issuesHeader
-        , div [] (List.map issueRow issues)
+        , div [] (List.map issueRow (sortIssuesList issues sorter))
         ]
+
+
+sortIssuesList : List Issue -> String -> List Issue
+sortIssuesList issues sorter =
+    if sorter == "id" then
+        List.sortBy .id issues
+    else if sorter == "state" then
+        List.sortBy .state issues
+    else
+        List.sortBy .id issues
 
 
 issuesHeader : Html Msg

@@ -9,6 +9,7 @@ main {
   margin: 0 10%;
 }
 
+/* CSS styling for search components */
 .searchInput {
   width: 46%;
   min-width: 140px;
@@ -21,6 +22,30 @@ main {
   margin-left: 1px;
   min-width: 65px;
   width: 7%;
+}
+
+/* CSS styling for sorter components */
+.issues-sorter {
+  display: flex;
+}
+
+.issues-sorter-btn {
+  width: 20px;
+  height: 15px;
+  border: 1px solid black;
+  margin-top: 5px;
+}
+
+.issues-sorter-btn:hover {
+  background-color: green !important;
+}
+
+.id-sorter {
+  margin-left: 2px;
+}
+
+.state-sorter {
+  margin-right: 2px;
 }
 
 /* CSS styling for issue components */
@@ -62,7 +87,8 @@ main {
 .fa-exclamation {
   border: 1px solid black;
   border-radius: 50%;
-  width: 17px;
+  width: 18px;
+  height: 18px;
   text-align: center;
 }
 
