@@ -7,6 +7,9 @@ import Msgs exposing (Msg(..))
 import Models exposing (Model, Issue, Label)
 
 
+-- Issues list view
+
+
 view : Model -> Html Msg
 view model =
     let
@@ -18,6 +21,33 @@ view model =
             , issuesSorter sorter
             , issuesList model.issues sorter
             ]
+
+
+
+-- Issues searcher
+
+
+issuesSearcher : Html Msg
+issuesSearcher =
+    div []
+        [ input
+            [ placeholder "Owner"
+            , onInput Change
+            , class "searchInput"
+            ]
+            []
+        , input
+            [ placeholder "Repository"
+            , onInput Change
+            , class "searchInput"
+            ]
+            []
+        , button [ class "searchBtn", onClick Search ] [ text "Search" ]
+        ]
+
+
+
+-- Issues list sorter
 
 
 issuesSorter : String -> Html Msg
@@ -45,23 +75,8 @@ issuesSorter sorter =
             ]
 
 
-issuesSearcher : Html Msg
-issuesSearcher =
-    div []
-        [ input
-            [ placeholder "Owner"
-            , onInput Change
-            , class "searchInput"
-            ]
-            []
-        , input
-            [ placeholder "Repository"
-            , onInput Change
-            , class "searchInput"
-            ]
-            []
-        , button [ class "searchBtn", onClick Search ] [ text "Search" ]
-        ]
+
+-- Issues list items displayer
 
 
 issuesList : List Issue -> String -> Html Msg
@@ -70,6 +85,10 @@ issuesList issues sorter =
         [ issuesHeader
         , div [] (List.map issueRow (sortIssuesList issues sorter))
         ]
+
+
+
+-- Sort issues list based on sorter selected
 
 
 sortIssuesList : List Issue -> String -> List Issue
@@ -82,6 +101,10 @@ sortIssuesList issues sorter =
         List.sortBy .id issues
 
 
+
+-- Issues list header
+
+
 issuesHeader : Html Msg
 issuesHeader =
     div [ class "row issues-header" ]
@@ -91,13 +114,16 @@ issuesHeader =
         ]
 
 
+
+-- Issues list item
+
+
 issueRow : Issue -> Html Msg
 issueRow issue =
-    Debug.log (toString issue)
-        div
+    div
         [ class "row issue-container" ]
         [ div [ class "col-2 issue-icons" ]
-            [ starIcon issue.isFavorite
+            [ starIcon issue
             , stateIcon issue.state
             ]
         , div [ class "col-6 issue-data" ]
@@ -121,14 +147,22 @@ issueRow issue =
         ]
 
 
-starIcon : Bool -> Html Msg
-starIcon isFavorite =
-    span [ class "star" ]
-        [ i (starIconAttributes isFavorite)
+
+-- Display star icon used to add or remove issue from favorites
+
+
+starIcon : Issue -> Html Msg
+starIcon issue =
+    span [ class "star", onClick (ToggleFavorite issue) ]
+        [ i (starIconAttributes issue.isFavorite)
             []
-        , i [ class "fa fa-star star-hover", style [ ( "color", "green" ) ] ]
+        , i [ class "fa fa-star star-hover", style [ ( "color", "#e2c151" ) ] ]
             []
         ]
+
+
+
+-- Set star icon attributes depending if issue is favorited or not
 
 
 starIconAttributes : Bool -> List (Attribute msg)
@@ -139,14 +173,12 @@ starIconAttributes isFavorite =
                 "fa fa-star star-default"
             else
                 "fa fa-star-o star-default"
-
-        starColor =
-            if isFavorite then
-                "green"
-            else
-                "black"
     in
-        [ class starClass, style [ ( "color", starColor ) ] ]
+        [ class starClass, style [ ( "color", "#e2c151" ) ] ]
+
+
+
+-- Indicates issue state
 
 
 stateIcon : String -> Html Msg
@@ -164,6 +196,10 @@ stateIcon state =
             , title stateItem.title
             ]
             []
+
+
+
+-- Display issue labels
 
 
 labelsRow : Label -> Html Msg

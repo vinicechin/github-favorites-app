@@ -4,7 +4,7 @@
 module Update exposing (..)
 
 import Msgs exposing (Msg(..))
-import Models exposing (Model)
+import Models exposing (Model, Issue)
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
@@ -18,3 +18,21 @@ update msg model =
 
         Search ->
             ( model, Cmd.none )
+
+        ToggleFavorite issue ->
+            ( updateIssue model issue, Cmd.none )
+
+
+updateIssue : Model -> Issue -> Model
+updateIssue model issue =
+    let
+        pick currentIssue =
+            if issue.id == currentIssue.id then
+                { issue | isFavorite = not issue.isFavorite }
+            else
+                currentIssue
+
+        updateIssueList =
+            List.map pick model.issues
+    in
+        { model | issues = updateIssueList }
