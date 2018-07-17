@@ -13,3 +13,32 @@ img {
   margin: 20px 0;
   max-width: 200px;
 }
+
+.issue-container {
+  border: 1px solid black;
+  border-radius: 5px;
+}
+
+.assigne-column {
+  text-align: right;
+}
+
+.issue-label {
+  border: 1px solid black;
+  border-radius: 5px;
+}
+
+.issue-icons {
+  max-width: 65px !important;
+}
+
+.fa-star {
+  margin-right: 2px;
+}
+
+.fa-exclamation {
+  border: 1px solid black;
+  border-radius: 50%;
+  width: 18px;
+  text-align: center;
+}

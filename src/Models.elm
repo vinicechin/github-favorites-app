@@ -6,7 +6,7 @@ module Models exposing (..)
 
 initialModel : Model
 initialModel =
-    { issues = [ Issue 0 "Teste Issue" False True [ Label "label 1" "yellow" ] ]
+    { issues = [ Issue 0 "Teste Issue" "vinicechin" False True [ Label "label 1" "yellow" ] ]
     , sorter = "id"
     , owner = ""
     , repo = ""
@@ -24,6 +24,7 @@ type alias Model =
 type alias Issue =
     { id : Int
     , name : String
+    , assignee : String
     , isFavorite : Bool
     , isOpen : Bool
     , labels : List Label
