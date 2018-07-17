@@ -6,3 +6,5 @@ module Msgs exposing (..)
 
 type Msg
     = NoOp
+    | Change String
+    | Search

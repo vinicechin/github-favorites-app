@@ -5,15 +5,25 @@ body {
   color: #293c4b;
 }
 
-h1 {
-  font-size: 30px;
+main {
+  margin: 0 10%;
 }
 
-img {
-  margin: 20px 0;
-  max-width: 200px;
+.searchInput {
+  width: 46%;
+  min-width: 165px;
+  margin: 0px 1px;
+  margin-bottom: 2px;
+  padding-left: 5px;
 }
 
+.searchBtn {
+  margin-left: 1px;
+  min-width: 65px;
+  width: 7%;
+}
+
+/* CSS styling for issue components */
 .issue-container {
   border: 1px solid black;
   border-radius: 5px;
@@ -21,24 +31,37 @@ img {
 
 .assigne-column {
   text-align: right;
+  margin-left: auto;
 }
 
 .issue-label {
   border: 1px solid black;
   border-radius: 5px;
+  margin-right: 3px;
+  padding: 0px 2px;
 }
 
 .issue-icons {
-  max-width: 65px !important;
-}
-
-.fa-star {
-  margin-right: 2px;
+  max-width: 55px !important;
+  padding: 0px 8px !important;
 }
 
 .fa-exclamation {
   border: 1px solid black;
   border-radius: 50%;
-  width: 18px;
+  width: 17px;
   text-align: center;
+}
+
+.star-default, .star-hover {
+  margin-right: 5px;
+  font-size: 17px !important;
+}
+
+.star:hover .star-default,
+.star .star-hover {
+    display: none;
+}
+.star:hover .star-hover {
+    display: inline;
 }

@@ -1,15 +1,31 @@
 module Issues.List exposing (..)
 
 import Html exposing (..)
-import Html.Attributes exposing (class)
-import Msgs exposing (Msg)
+import Html.Attributes exposing (class, style, placeholder)
+import Html.Events exposing (onInput, onClick)
+import Msgs exposing (Msg(..))
 import Models exposing (Issue, Label)
 
 
 view : List Issue -> Html Msg
 view issues =
-    div []
-        [ issuesList issues
+    main_ []
+        [ div []
+            [ input
+                [ placeholder "Owner"
+                , onInput Change
+                , class "searchInput"
+                ]
+                []
+            , input
+                [ placeholder "Repository"
+                , onInput Change
+                , class "searchInput"
+                ]
+                []
+            , button [ class "searchBtn", onClick Search ] [ text "Search" ]
+            ]
+        , issuesList issues
         ]
 
 
@@ -27,13 +43,16 @@ issuesList issues =
 
 issueRow : Issue -> Html Msg
 issueRow issue =
-    div [ class "row issue-container" ]
+    Debug.log (toString issue)
+        div
+        [ class "row issue-container" ]
         [ div [ class "col-2 issue-icons" ]
-            [ i [ class "fa fa-star" ] []
+            [ starIcon issue.isFavorite
             , i [ class "fa fa-exclamation" ] []
             ]
         , div [ class "col-6" ]
-            [ text issue.name
+            [ text ((toString issue.id) ++ " - ")
+            , text issue.name
             , div [] (List.map labelsRow issue.labels)
             ]
         , div [ class "col-4 assigne-column" ] [ text issue.assignee ]
@@ -43,3 +62,29 @@ issueRow issue =
 labelsRow : Label -> Html Msg
 labelsRow label =
     span [ class "issue-label" ] [ text label.name ]
+
+
+starIcon : Bool -> Html Msg
+starIcon isFavorite =
+    span [ class "star" ]
+        [ i [ starClass isFavorite, starColor isFavorite ]
+            []
+        , i [ class "fa fa-star star-hover", style [ ( "color", "green" ) ] ]
+            []
+        ]
+
+
+starClass : Bool -> Attribute msg
+starClass isFavorite =
+    if isFavorite then
+        class "fa fa-star star-default"
+    else
+        class "fa fa-star-o star-default"
+
+
+starColor : Bool -> Attribute msg
+starColor isFavorite =
+    if isFavorite then
+        style [ ( "color", "green" ) ]
+    else
+        style [ ( "color", "black" ) ]

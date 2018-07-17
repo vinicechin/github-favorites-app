@@ -12,3 +12,9 @@ update msg model =
     case msg of
         NoOp ->
             ( model, Cmd.none )
+
+        Change inputText ->
+            ( model, Cmd.none )
+
+        Search ->
+            ( model, Cmd.none )
