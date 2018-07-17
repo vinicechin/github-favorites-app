@@ -7,8 +7,8 @@ module Models exposing (..)
 initialModel : Model
 initialModel =
     { issues =
-        [ Issue 0 "Teste Issue" "vinicechin" False "Open" [ Label "label 1" "yellow", Label "label 2" "pink" ]
-        , Issue 1 "Teste Issue 2 muito extensa para testar" "fulanocomnomecomprido" True "Closed" [ Label "label 2" "pink" ]
+        [ Issue 0 "Teste Issue" "vinicechin" False "open" [ Label "label 1" "yellow", Label "label 2" "#e2c151" ]
+        , Issue 1 "Teste Issue 2 muito extensa para testar" "fulanocomnomecomprido" True "closed" [ Label "label 2" "#e2c151" ]
         ]
     , sorter = "id"
     , owner = ""

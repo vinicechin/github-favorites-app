@@ -22,6 +22,7 @@ main {
   margin-left: 1px;
   min-width: 65px;
   width: 7%;
+  cursor: pointer;
 }
 
 /* CSS styling for sorter components */
@@ -34,10 +35,11 @@ main {
   height: 15px;
   border: 1px solid black;
   margin-top: 5px;
+  cursor: pointer;
 }
 
 .issues-sorter-btn:hover {
-  background-color: green !important;
+  background-color: #bbbbbb !important;
 }
 
 .id-sorter {
@@ -58,6 +60,7 @@ main {
   border-radius: 5px;
   margin-bottom: 5px;
   padding: 3px;
+  background-color: #f6f6f6;
 }
 
 .issue-data {
@@ -85,7 +88,7 @@ main {
 }
 
 .fa-exclamation {
-  border: 1px solid black;
+  border: 1px solid;
   border-radius: 50%;
   width: 18px;
   height: 18px;
@@ -95,6 +98,7 @@ main {
 .star-default, .star-hover {
   margin-right: 5px;
   font-size: 17px !important;
+  cursor: pointer;
 }
 
 .star:hover .star-default,

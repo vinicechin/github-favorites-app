@@ -25,13 +25,13 @@ issuesSorter sorter =
     let
         idColor =
             if sorter == "id" then
-                "green"
+                "#bbbbbb"
             else
                 "white"
 
         stateColor =
             if sorter == "state" then
-                "green"
+                "#bbbbbb"
             else
                 "white"
     in
@@ -98,7 +98,7 @@ issueRow issue =
         [ class "row issue-container" ]
         [ div [ class "col-2 issue-icons" ]
             [ starIcon issue.isFavorite
-            , i [ class "fa fa-exclamation" ] []
+            , stateIcon issue.state
             ]
         , div [ class "col-6 issue-data" ]
             [ text ((toString issue.id) ++ " - ")
@@ -137,6 +137,22 @@ starIconAttributes isFavorite =
         [ class starClass, style [ ( "color", starColor ) ] ]
 
 
+stateIcon : String -> Html Msg
+stateIcon state =
+    let
+        stateColor =
+            if state == "open" then
+                "green"
+            else
+                "red"
+    in
+        i [ class "fa fa-exclamation", style [ ( "color", stateColor ) ] ] []
+
+
 labelsRow : Label -> Html Msg
 labelsRow label =
-    span [ class "issue-label" ] [ text label.name ]
+    span
+        [ class "issue-label"
+        , style [ ( "background-color", label.color ) ]
+        ]
+        [ text label.name ]
