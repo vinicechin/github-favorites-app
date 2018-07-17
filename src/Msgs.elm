@@ -8,7 +8,8 @@ import Models exposing (Issue)
 
 type Msg
     = NoOp
-    | Change String
+    | InputOwner String
+    | InputRepository String
     | Search
     | ToggleFavorite Issue
     | ToggleSorter

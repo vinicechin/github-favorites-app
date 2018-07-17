@@ -13,8 +13,11 @@ update msg model =
         NoOp ->
             ( model, Cmd.none )
 
-        Change inputText ->
-            ( model, Cmd.none )
+        InputOwner inputText ->
+            ( { model | owner = inputText }, Cmd.none )
+
+        InputRepository inputText ->
+            ( { model | repo = inputText }, Cmd.none )
 
         Search ->
             ( model, Cmd.none )

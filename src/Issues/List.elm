@@ -32,13 +32,13 @@ issuesSearcher =
     div []
         [ input
             [ placeholder "Owner"
-            , onInput Change
+            , onInput InputOwner
             , class "searchInput"
             ]
             []
         , input
             [ placeholder "Repository"
-            , onInput Change
+            , onInput InputRepository
             , class "searchInput"
             ]
             []
