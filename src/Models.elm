@@ -48,12 +48,17 @@ type alias Model =
 type alias Issue =
     { id : Int
     , name : String
-    , assignee : String
-    , assigneeImageUrl : String
-    , assigneeUrl : String
     , isFavorite : Bool
     , state : String
     , labels : List Label
+    , url : String
+    , assignee : Assignee
+    }
+
+
+type alias Assignee =
+    { login : String
+    , avatar : String
     , url : String
     }
 

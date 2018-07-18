@@ -160,20 +160,31 @@ issueRow issue =
             , a [ href issue.url, target "_blank" ] [ text issue.name ]
             , div [] (List.map labelsRow issue.labels)
             ]
-        , div [ class "col-4 assigne-column" ]
+        , assigneeInfo issue
+        ]
+
+
+assigneeInfo : Issue -> Html Msg
+assigneeInfo issue =
+    if (not (issue.assignee.login == "")) then
+        div
+            [ class "col-4 assigne-column" ]
             [ a
-                [ href issue.assigneeUrl
+                [ href issue.assignee.url
                 , target "_blank"
                 ]
                 [ img
-                    [ src issue.assigneeImageUrl
-                    , title issue.assignee
+                    [ src issue.assignee.avatar
+                    , title issue.assignee.login
                     , class "assignee-img"
                     ]
                     []
                 ]
             ]
-        ]
+    else
+        div
+            [ class "col-4 assigne-column assignee-empty" ]
+            []
 
 
 
@@ -235,6 +246,6 @@ labelsRow : Label -> Html Msg
 labelsRow label =
     span
         [ class "issue-label"
-        , style [ ( "background-color", label.color ) ]
+        , style [ ( "background-color", "#" ++ label.color ) ]
         ]
         [ text label.name ]
