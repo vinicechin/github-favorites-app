@@ -5,6 +5,7 @@ import Html.Attributes exposing (class, style, placeholder, title, href, target,
 import Html.Events exposing (onInput, onClick)
 import Msgs exposing (Msg(..))
 import Models exposing (Model, Issue, Label)
+import RemoteData exposing (WebData)
 
 
 -- Issues list view
@@ -91,12 +92,28 @@ boldText setBold sorterLabel =
 -- Issues list items displayer
 
 
-issuesList : List Issue -> String -> Html Msg
-issuesList issues sorter =
+issuesList : WebData (List Issue) -> String -> Html Msg
+issuesList response sorter =
     div [ class "p2" ]
         [ issuesHeader
-        , div [] (List.map issueRow (sortIssuesList issues sorter))
+        , div [] (maybeList response sorter)
         ]
+
+
+maybeList : WebData (List Issue) -> String -> List (Html Msg)
+maybeList response sorter =
+    case response of
+        RemoteData.NotAsked ->
+            [ text "" ]
+
+        RemoteData.Loading ->
+            [ text "Loading..." ]
+
+        RemoteData.Success issues ->
+            (List.map issueRow (sortIssuesList issues sorter))
+
+        RemoteData.Failure error ->
+            [ text (toString error) ]
 
 
 

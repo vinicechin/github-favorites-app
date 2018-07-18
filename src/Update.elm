@@ -5,14 +5,13 @@ module Update exposing (..)
 
 import Msgs exposing (Msg(..))
 import Models exposing (Model, Issue)
+import Commands exposing (fetchIssues)
+import RemoteData
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
-        NoOp ->
-            ( model, Cmd.none )
-
         InputOwner inputText ->
             ( { model | owner = inputText }, Cmd.none )
 
@@ -20,13 +19,16 @@ update msg model =
             ( { model | repo = inputText }, Cmd.none )
 
         Search ->
-            ( model, Cmd.none )
+            ( model, fetchIssues )
 
         ToggleFavorite issue ->
             ( toggleFavorite model issue, Cmd.none )
 
         ToggleSorter ->
             ( toggleSorter model, Cmd.none )
+
+        OnFetchIssues response ->
+            ( { model | issues = response }, Cmd.none )
 
 
 toggleFavorite : Model -> Issue -> Model
@@ -38,10 +40,13 @@ toggleFavorite model issue =
             else
                 currentIssue
 
-        updateIssueList =
-            List.map pick model.issues
+        updateIssueList issues =
+            List.map pick issues
+
+        updateIssues =
+            RemoteData.map updateIssueList model.issues
     in
-        { model | issues = updateIssueList }
+        { model | issues = updateIssues }
 
 
 toggleSorter : Model -> Model
