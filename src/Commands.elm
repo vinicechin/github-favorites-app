@@ -17,7 +17,7 @@ fetchIssues owner repo =
 
 fetchIssuesUrl : String -> String -> String
 fetchIssuesUrl owner repo =
-    String.concat [ "https://api.github.com/repos/", owner, "/", repo, "/issues" ]
+    String.concat [ "https://api.github.com/repos/", owner, "/", repo, "/issues?state=all&per_page=100" ]
 
 
 issuesDecoder : Decode.Decoder (List Issue)
