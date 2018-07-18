@@ -112,6 +112,7 @@ issuesList : WebData (List Issue) -> String -> String -> Html Msg
 issuesList response sorter filter =
     div [ class "p2" ]
         [ issuesHeader
+        , hr [ style [ ( "margin", "5px 0px" ) ] ] []
         , div [] (maybeList response sorter filter)
         ]
 
