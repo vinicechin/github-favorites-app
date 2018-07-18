@@ -3,6 +3,14 @@
 
 module Msgs exposing (..)
 
+import Models exposing (Issue)
+import RemoteData exposing (WebData)
+
 
 type Msg
-    = NoOp
+    = InputOwner String
+    | InputRepository String
+    | Search
+    | ToggleFavorite Issue
+    | ToggleSorter
+    | OnFetchIssues (WebData (List Issue))
