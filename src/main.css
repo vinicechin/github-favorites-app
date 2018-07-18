@@ -9,16 +9,8 @@ main {
   margin: 0 10%;
 }
 
-a {
-  color: black !important;
-}
-
-a:hover {
-  color: #2222cc !important;
-}
-
 .app-nav-btn {
-  color: white !important;
+  margin-left: 10px;
 }
 
 /* CSS styling for search components */
@@ -82,6 +74,14 @@ a:hover {
 .issue-data {
   overflow-x: hidden;
   text-overflow: ellipsis;
+}
+
+.issue-name {
+  color: black !important;
+}
+
+.issue-name:hover {
+  color: #2222cc !important;
 }
 
 .assigne-column {

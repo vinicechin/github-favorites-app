@@ -18,11 +18,22 @@ view model =
         sorter =
             model.sorter
     in
-        main_ []
-            [ issuesSearcher
-            , issuesSorter sorter
-            , issuesList model.issues sorter
-            ]
+        case model.route of
+            Models.IssuesRoute ->
+                main_ []
+                    [ issuesSearcher
+                    , issuesSorter sorter
+                    , issuesList model.issues sorter "issues"
+                    ]
+
+            Models.FavoritesRoute ->
+                main_ []
+                    [ issuesSorter sorter
+                    , issuesList model.issues sorter "favorites"
+                    ]
+
+            Models.NotFoundRoute ->
+                main_ [] [ text "Not found" ]
 
 
 
@@ -97,11 +108,11 @@ boldText setBold sorterLabel =
 -- Issues list items displayer
 
 
-issuesList : WebData (List Issue) -> String -> Html Msg
-issuesList response sorter =
+issuesList : WebData (List Issue) -> String -> String -> Html Msg
+issuesList response sorter filter =
     div [ class "p2" ]
         [ issuesHeader
-        , div [] (maybeList response sorter)
+        , div [] (maybeList response sorter filter)
         ]
 
 
@@ -109,8 +120,8 @@ issuesList response sorter =
 -- Handle each possible state of the returned issues list data
 
 
-maybeList : WebData (List Issue) -> String -> List (Html Msg)
-maybeList response sorter =
+maybeList : WebData (List Issue) -> String -> String -> List (Html Msg)
+maybeList response sorter filter =
     case response of
         RemoteData.NotAsked ->
             [ text "" ]
@@ -119,7 +130,10 @@ maybeList response sorter =
             [ text "Loading..." ]
 
         RemoteData.Success issues ->
-            (List.map issueRow (sortIssuesList issues sorter))
+            if filter == "issues" then
+                (List.map issueRow (sortIssuesList issues sorter))
+            else
+                (List.map issueRow (sortIssuesList (filterFavoritesIssues issues) sorter))
 
         RemoteData.Failure error ->
             case error of
@@ -144,6 +158,22 @@ maybeList response sorter =
                             ++ ")"
                         )
                     ]
+
+
+
+-- Filter issues list by isFavorite attribute
+
+
+filterFavoritesIssues : List Issue -> List Issue
+filterFavoritesIssues issues =
+    let
+        isFavorite issue =
+            if issue.isFavorite then
+                True
+            else
+                False
+    in
+        List.filter isFavorite issues
 
 
 
@@ -187,7 +217,7 @@ issueRow issue =
             ]
         , div [ class "col-6 issue-data" ]
             [ text ((toString issue.id) ++ " - ")
-            , a [ href issue.url, target "_blank" ] [ text issue.name ]
+            , a [ class "issue-name", href issue.url, target "_blank" ] [ text issue.name ]
             , div [] (List.map labelsRow issue.labels)
             ]
         , assigneeInfo issue
