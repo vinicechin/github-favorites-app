@@ -5,11 +5,133 @@ body {
   color: #293c4b;
 }
 
-h1 {
-  font-size: 30px;
+main {
+  margin: 0 10%;
 }
 
-img {
-  margin: 20px 0;
-  max-width: 200px;
+.app-nav-btn {
+  margin-left: 10px;
+}
+
+/* CSS styling for search components */
+.searchInput {
+  width: 46%;
+  min-width: 140px;
+  margin: 0px 1px;
+  margin-bottom: 2px;
+  padding-left: 5px;
+}
+
+.searchBtn {
+  margin-left: 1px;
+  min-width: 65px;
+  width: 7%;
+  cursor: pointer;
+}
+
+/* CSS styling for sorter components */
+.issues-sorter {
+  display: flex;
+}
+
+.issues-sorter-label {
+  width: 15px;
+}
+
+.issues-sorter-btn {
+  width: 20px;
+  height: 15px;
+  border: 1px solid black;
+  margin-top: 5px;
+  cursor: pointer;
+}
+
+.issues-sorter-btn:hover {
+  background-color: #bbbbbb !important;
+}
+
+.id-sorter {
+  margin-left: 3px;
+}
+
+.state-sorter {
+  margin-right: 3px;
+}
+
+/* CSS styling for issue components */
+.issues-header {
+  padding: 0px 3px;
+}
+
+.issue-container {
+  border: 1px solid black;
+  border-radius: 5px;
+  margin-bottom: 5px;
+  padding: 3px;
+  background-color: #f6f6f6;
+}
+
+.issue-data {
+  overflow-x: hidden;
+  text-overflow: ellipsis;
+}
+
+.issue-name {
+  color: black !important;
+}
+
+.issue-name:hover {
+  color: #2222cc !important;
+}
+
+.assigne-column {
+  text-align: right;
+  margin-left: auto;
+  overflow-x: hidden;
+  text-overflow: ellipsis;
+}
+
+.assignee-img {
+  width: 20px;
+  height: 20px;
+  border-radius: 3px;
+  margin: 5px 17px 0px 0px;
+}
+
+.assignee-empty {
+  display: none;
+}
+
+.issue-label {
+  border: 1px solid #BBBBBB;
+  border-radius: 5px;
+  margin-right: 3px;
+  padding: 0px 2px;
+}
+
+.issue-icons {
+  max-width: 55px !important;
+  padding: 0px 8px !important;
+}
+
+.fa-exclamation {
+  border: 1px solid;
+  border-radius: 50%;
+  width: 18px;
+  height: 18px;
+  text-align: center;
+}
+
+.star-default, .star-hover {
+  margin-right: 5px;
+  font-size: 17px !important;
+  cursor: pointer;
+}
+
+.star:hover .star-default,
+.star .star-hover {
+    display: none;
+}
+.star:hover .star-hover {
+    display: inline;
 }

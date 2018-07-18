@@ -1,0 +1,27 @@
+{
+  "name": "github-favorites-app",
+  "version": "1.0.0",
+  "description": "This project is bootstrapped with [Create Elm App](https://github.com/halfzebra/create-elm-app).",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vinicechin/github-favorites-app.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/vinicechin/github-favorites-app/issues"
+  },
+  "homepage": "https://github.com/vinicechin/github-favorites-app#readme",
+  "dependencies": {
+    "ace-css": "^1.1.0",
+    "bootstrap": "^4.1.2",
+    "font-awesome": "^4.7.0",
+    "jquery": "^3.3.1",
+    "popper.js": "^1.14.3"
+  }
+}
