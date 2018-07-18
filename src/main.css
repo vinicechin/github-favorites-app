@@ -9,12 +9,8 @@ main {
   margin: 0 10%;
 }
 
-a {
-  color: black !important;
-}
-
-a:hover {
-  color: #2222cc !important;
+.app-nav-btn {
+  margin-left: 10px;
 }
 
 /* CSS styling for search components */
@@ -80,6 +76,14 @@ a:hover {
   text-overflow: ellipsis;
 }
 
+.issue-name {
+  color: black !important;
+}
+
+.issue-name:hover {
+  color: #2222cc !important;
+}
+
 .assigne-column {
   text-align: right;
   margin-left: auto;
@@ -94,8 +98,12 @@ a:hover {
   margin: 5px 17px 0px 0px;
 }
 
+.assignee-empty {
+  display: none;
+}
+
 .issue-label {
-  border: 1px solid black;
+  border: 1px solid #BBBBBB;
   border-radius: 5px;
   margin-right: 3px;
   padding: 0px 2px;

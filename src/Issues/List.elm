@@ -3,6 +3,7 @@ module Issues.List exposing (..)
 import Html exposing (..)
 import Html.Attributes exposing (class, style, placeholder, title, href, target, src)
 import Html.Events exposing (onInput, onClick)
+import Http exposing (Error(..))
 import Msgs exposing (Msg(..))
 import Models exposing (Model, Issue, Label)
 import RemoteData exposing (WebData)
@@ -17,11 +18,22 @@ view model =
         sorter =
             model.sorter
     in
-        main_ []
-            [ issuesSearcher
-            , issuesSorter sorter
-            , issuesList model.issues sorter
-            ]
+        case model.route of
+            Models.IssuesRoute ->
+                main_ []
+                    [ issuesSearcher
+                    , issuesSorter sorter
+                    , issuesList model.issues sorter "issues"
+                    ]
+
+            Models.FavoritesRoute ->
+                main_ []
+                    [ issuesSorter sorter
+                    , issuesList model.issues sorter "favorites"
+                    ]
+
+            Models.NotFoundRoute ->
+                main_ [] [ text "Not found" ]
 
 
 
@@ -80,6 +92,10 @@ issuesSorter sorter =
             ]
 
 
+
+-- Set text bold based on passed boolean
+
+
 boldText : Bool -> String -> Html Msg
 boldText setBold sorterLabel =
     if setBold then
@@ -92,16 +108,21 @@ boldText setBold sorterLabel =
 -- Issues list items displayer
 
 
-issuesList : WebData (List Issue) -> String -> Html Msg
-issuesList response sorter =
+issuesList : WebData (List Issue) -> String -> String -> Html Msg
+issuesList response sorter filter =
     div [ class "p2" ]
         [ issuesHeader
-        , div [] (maybeList response sorter)
+        , hr [ style [ ( "margin", "5px 0px" ) ] ] []
+        , div [] (maybeList response sorter filter)
         ]
 
 
-maybeList : WebData (List Issue) -> String -> List (Html Msg)
-maybeList response sorter =
+
+-- Handle each possible state of the returned issues list data
+
+
+maybeList : WebData (List Issue) -> String -> String -> List (Html Msg)
+maybeList response sorter filter =
     case response of
         RemoteData.NotAsked ->
             [ text "" ]
@@ -110,10 +131,50 @@ maybeList response sorter =
             [ text "Loading..." ]
 
         RemoteData.Success issues ->
-            (List.map issueRow (sortIssuesList issues sorter))
+            if filter == "issues" then
+                (List.map issueRow (sortIssuesList issues sorter))
+            else
+                (List.map issueRow (sortIssuesList (filterFavoritesIssues issues) sorter))
 
         RemoteData.Failure error ->
-            [ text (toString error) ]
+            case error of
+                BadUrl urlText ->
+                    [ text ("Bad Url: " ++ urlText) ]
+
+                Timeout ->
+                    [ text ("Http Timeout") ]
+
+                NetworkError ->
+                    [ text ("Network Error") ]
+
+                BadStatus response ->
+                    [ text ("Bad Http Status: " ++ toString response.status.code) ]
+
+                BadPayload message response ->
+                    [ text
+                        ("Bad Http Payload: "
+                            ++ toString message
+                            ++ " ("
+                            ++ toString response.status.code
+                            ++ ")"
+                        )
+                    ]
+
+
+
+-- Filter issues list by isFavorite attribute
+
+
+filterFavoritesIssues : List Issue -> List Issue
+filterFavoritesIssues issues =
+    let
+        isFavorite issue =
+            if issue.isFavorite then
+                True
+            else
+                False
+    in
+        List.filter isFavorite issues
 
 
 
@@ -157,23 +218,38 @@ issueRow issue =
             ]
         , div [ class "col-6 issue-data" ]
             [ text ((toString issue.id) ++ " - ")
-            , a [ href issue.url, target "_blank" ] [ text issue.name ]
+            , a [ class "issue-name", href issue.url, target "_blank" ] [ text issue.name ]
             , div [] (List.map labelsRow issue.labels)
             ]
-        , div [ class "col-4 assigne-column" ]
+        , assigneeInfo issue
+        ]
+
+
+
+-- Assignee avatar and links
+
+
+assigneeInfo : Issue -> Html Msg
+assigneeInfo issue =
+    if (not (issue.assignee.login == "")) then
+        div
+            [ class "col-4 assigne-column" ]
             [ a
-                [ href issue.assigneeUrl
+                [ href issue.assignee.url
                 , target "_blank"
                 ]
                 [ img
-                    [ src issue.assigneeImageUrl
-                    , title issue.assignee
+                    [ src issue.assignee.avatar
+                    , title issue.assignee.login
                     , class "assignee-img"
                     ]
                     []
                 ]
             ]
-        ]
+    else
+        div
+            [ class "col-4 assignee-empty" ]
+            []
 
 
 
@@ -235,6 +311,6 @@ labelsRow : Label -> Html Msg
 labelsRow label =
     span
         [ class "issue-label"
-        , style [ ( "background-color", label.color ) ]
+        , style [ ( "background-color", "#" ++ label.color ) ]
         ]
         [ text label.name ]

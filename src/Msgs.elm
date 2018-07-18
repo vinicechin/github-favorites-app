@@ -4,6 +4,7 @@
 module Msgs exposing (..)
 
 import Models exposing (Issue)
+import Navigation exposing (Location)
 import RemoteData exposing (WebData)
 
 
@@ -14,3 +15,4 @@ type Msg
     | ToggleFavorite Issue
     | ToggleSorter
     | OnFetchIssues (WebData (List Issue))
+    | OnLocationChange Location

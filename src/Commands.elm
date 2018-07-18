@@ -1,23 +1,23 @@
 module Commands exposing (..)
 
 import Http
-import Json.Decode as Decode exposing (string, int, list, nullable, at)
-import Json.Decode.Pipeline exposing (decode, required, custom, hardcoded)
+import Json.Decode as Decode exposing (string, int, list, null, nullable, maybe, field, at, oneOf, decodeString)
+import Json.Decode.Pipeline exposing (decode, required, requiredAt, optional, custom, hardcoded)
 import Msgs exposing (Msg)
-import Models exposing (Issue, Label)
+import Models exposing (Issue, Label, Assignee)
 import RemoteData
 
 
-fetchIssues : Cmd Msg
-fetchIssues =
-    Http.get fetchIssuesUrl issuesDecoder
+fetchIssues : String -> String -> Cmd Msg
+fetchIssues owner repo =
+    Http.get (fetchIssuesUrl owner repo) issuesDecoder
         |> RemoteData.sendRequest
         |> Cmd.map Msgs.OnFetchIssues
 
 
-fetchIssuesUrl : String
-fetchIssuesUrl =
-    "https://api.github.com/repos/vinicechin/angular-test/issues"
+fetchIssuesUrl : String -> String -> String
+fetchIssuesUrl owner repo =
+    String.concat [ "https://api.github.com/repos/", owner, "/", repo, "/issues" ]
 
 
 issuesDecoder : Decode.Decoder (List Issue)
@@ -30,17 +30,11 @@ issueDecoder =
     decode Issue
         |> required "number" int
         |> required "title" string
-        |> hardcoded "vinicechin"
-        |> hardcoded "https://avatars1.githubusercontent.com/u/16272285?v=4"
-        |> hardcoded "https://github.com/vinicechin"
-        --|> custom (at [ "assignee", "login" ] (nullable string))
-        --|> custom (at [ "assignee", "avatar_url" ] (nullable string))
-        --|> custom (at [ "assignee", "html_url" ] (nullable string))
         |> hardcoded False
         |> required "state" string
-        --|> custom (at [ "labels" ] (nullable (list labelDecoder)))
-        |> hardcoded [ Label "label 1" "yellow", Label "label 2" "#e2c151" ]
+        |> required "labels" (list labelDecoder)
         |> required "url" string
+        |> optional "assignee" assigneeDecoder (Assignee "" "" "")
 
 
 labelDecoder : Decode.Decoder Label
@@ -48,3 +42,11 @@ labelDecoder =
     decode Label
         |> required "name" string
         |> required "color" string
+
+
+assigneeDecoder : Decode.Decoder Assignee
+assigneeDecoder =
+    decode Assignee
+        |> required "login" string
+        |> required "avatar_url" string
+        |> required "html_url" string
