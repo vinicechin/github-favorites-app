@@ -19,7 +19,7 @@ update msg model =
             ( { model | repo = inputText }, Cmd.none )
 
         Search ->
-            ( model, fetchIssues )
+            ( model, fetchIssues model.owner model.repo )
 
         ToggleFavorite issue ->
             ( toggleFavorite model issue, Cmd.none )

@@ -8,16 +8,16 @@ import Models exposing (Issue, Label, Assignee)
 import RemoteData
 
 
-fetchIssues : Cmd Msg
-fetchIssues =
-    Http.get fetchIssuesUrl issuesDecoder
+fetchIssues : String -> String -> Cmd Msg
+fetchIssues owner repo =
+    Http.get (fetchIssuesUrl owner repo) issuesDecoder
         |> RemoteData.sendRequest
         |> Cmd.map Msgs.OnFetchIssues
 
 
-fetchIssuesUrl : String
-fetchIssuesUrl =
-    "https://api.github.com/repos/vinicechin/angular-test/issues"
+fetchIssuesUrl : String -> String -> String
+fetchIssuesUrl owner repo =
+    String.concat [ "https://api.github.com/repos/", owner, "/", repo, "/issues" ]
 
 
 issuesDecoder : Decode.Decoder (List Issue)

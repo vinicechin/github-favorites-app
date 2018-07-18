@@ -3,6 +3,7 @@ module Issues.List exposing (..)
 import Html exposing (..)
 import Html.Attributes exposing (class, style, placeholder, title, href, target, src)
 import Html.Events exposing (onInput, onClick)
+import Http exposing (Error(..))
 import Msgs exposing (Msg(..))
 import Models exposing (Model, Issue, Label)
 import RemoteData exposing (WebData)
@@ -80,6 +81,10 @@ issuesSorter sorter =
             ]
 
 
+
+-- Set text bold based on passed boolean
+
+
 boldText : Bool -> String -> Html Msg
 boldText setBold sorterLabel =
     if setBold then
@@ -100,6 +105,10 @@ issuesList response sorter =
         ]
 
 
+
+-- Handle each possible state of the returned issues list data
+
+
 maybeList : WebData (List Issue) -> String -> List (Html Msg)
 maybeList response sorter =
     case response of
@@ -113,7 +122,28 @@ maybeList response sorter =
             (List.map issueRow (sortIssuesList issues sorter))
 
         RemoteData.Failure error ->
-            [ text (toString error) ]
+            case error of
+                BadUrl urlText ->
+                    [ text ("Bad Url: " ++ urlText) ]
+
+                Timeout ->
+                    [ text ("Http Timeout") ]
+
+                NetworkError ->
+                    [ text ("Network Error") ]
+
+                BadStatus response ->
+                    [ text ("Bad Http Status: " ++ toString response.status.code) ]
+
+                BadPayload message response ->
+                    [ text
+                        ("Bad Http Payload: "
+                            ++ toString message
+                            ++ " ("
+                            ++ toString response.status.code
+                            ++ ")"
+                        )
+                    ]
 
 
 
@@ -164,6 +194,10 @@ issueRow issue =
         ]
 
 
+
+-- Assignee avatar and links
+
+
 assigneeInfo : Issue -> Html Msg
 assigneeInfo issue =
     if (not (issue.assignee.login == "")) then
@@ -183,7 +217,7 @@ assigneeInfo issue =
             ]
     else
         div
-            [ class "col-4 assigne-column assignee-empty" ]
+            [ class "col-4 assignee-empty" ]
             []
 
 
