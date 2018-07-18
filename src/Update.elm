@@ -6,6 +6,7 @@ module Update exposing (..)
 import Msgs exposing (Msg(..))
 import Models exposing (Model, Issue)
 import Commands exposing (fetchIssues)
+import Routing exposing (parseLocation)
 import RemoteData
 
 
@@ -29,6 +30,13 @@ update msg model =
 
         OnFetchIssues response ->
             ( { model | issues = response }, Cmd.none )
+
+        OnLocationChange location ->
+            let
+                newRoute =
+                    parseLocation location
+            in
+                ( { model | route = newRoute }, Cmd.none )
 
 
 toggleFavorite : Model -> Issue -> Model

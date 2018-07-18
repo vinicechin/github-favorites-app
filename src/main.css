@@ -17,6 +17,10 @@ a:hover {
   color: #2222cc !important;
 }
 
+.app-nav-btn {
+  color: white !important;
+}
+
 /* CSS styling for search components */
 .searchInput {
   width: 46%;
